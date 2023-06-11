@@ -1,7 +1,5 @@
 import * as usersDao from "./users-dao.js";
 
-var currentUserVar;
-
 const AuthController = (app) => {
     // the register API retrieves the username and password from the requested body
     // if there's already a user with that username then we respond with an error.
@@ -15,8 +13,7 @@ const AuthController = (app) => {
             return;
         }
         const newUser = usersDao.createUser(req.body); // new user's info is in
-        // req.session["currentUser"] = newUser;
-        currentUserVar = newUser;
+        req.session["currentUser"] = newUser;
         res.json(newUser);
     };
     // an existing user can identify themselves by providing their credentials as username and
@@ -27,8 +24,7 @@ const AuthController = (app) => {
         const password = req.body.password;
         const user = usersDao.findUserByCredentials(username, password);
         if (user) {
-            // req.session["currentUser"] = user;
-            currentUserVar = user;
+            req.session["currentUser"] = user;
             res.json(user); // display the user
         } else {
             res.sendStatus(404);
@@ -37,8 +33,7 @@ const AuthController = (app) => {
     // if a user has already logged in, we can retrieve the current user by using the profile
     // API as shown below
     const profile = (req, res) => {
-        // const currentUser = req.session["currentUser"];
-        const currentUser = currentUserVar;
+        const currentUser = req.session["currentUser"];
         if (!currentUser) {
             res.sendStatus(404);
             return;
