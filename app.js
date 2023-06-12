@@ -5,6 +5,7 @@ import UserController from "./users/users-controller.js";
 import TuitsController from "./tuits/tuits-controller.js";
 import session from "express-session"; // import new server session library
 import AuthController from "./users/auth-controller.js";
+import {useEffect} from "react";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -44,6 +45,7 @@ app.use(express.json()); // parse JSON from HTTP request body because express do
 // to extract data from an HTTP body. Express defines a JSON middleware to parse data from the
 // body. All requests will first go through this middleware parsing the HTTP body into a JSON
 // object added to the requested object in a new body property that later HTTP handlers can access.
+
 TuitsController(app);
 HelloController(app);
 UserController(app);
