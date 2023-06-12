@@ -5,7 +5,6 @@ import UserController from "./users/users-controller.js";
 import TuitsController from "./tuits/tuits-controller.js";
 import session from "express-session"; // import new server session library
 import AuthController from "./users/auth-controller.js";
-import {useEffect} from "react";
 
 const app = express();
 const port = process.env.PORT || 4000;
