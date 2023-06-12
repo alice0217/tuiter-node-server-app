@@ -1,6 +1,5 @@
 import express from 'express';
 // const express = require('express'); // same as import express library
-import cors from "cors"
 import HelloController from "./controllers/hello-controller.js";
 import UserController from "./users/users-controller.js";
 import TuitsController from "./tuits/tuits-controller.js";
@@ -19,23 +18,24 @@ app.use( // configure server session
 );
 // cors - cross-origin resource sharing - establish rules by which resources can be shared
 // across domains
-app.use(
-    cors({
-             credentials: true,
-             origin: "http://localhost:3000",
-         })
-);
+// app.use(
+//     cors({
+//              credentials: true,
+//              origin: "http://localhost:3000",
+//          })
+// );
 
-app.use(function (req, res, next) {
-    res.header(
-        "Access-Control-Allow-Origin",
-        "https://a5--musical-duckanoo-05ddab.netlify.app"
-    );
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, POST, DELETE, PATCH, OPTIONS");
+app.use((req, res, next) => {
+    const allowedOrigins = ["http://localhost:3000",
+                            "https://a5--musical-duckanoo-05ddab.netlify.app"];
+    const origin = req.headers.origin;
+
+    if (allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+    }
+
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, PATCH, OPTIONS");
     res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
