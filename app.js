@@ -7,8 +7,6 @@ import TuitsController from "./tuits/tuits-controller.js";
 import session from "express-session"; // import new server session library
 import AuthController from "./users/auth-controller.js";
 
-const allowedOrigins = ["http://localhost:3000", "https://musical-duckanoo-05ddab.netlify.app/"];
-
 const app = express();
 app.use( // configure server session
          session({
@@ -19,17 +17,19 @@ app.use( // configure server session
 );
 // cors - cross-origin resource sharing - establish rules by which resources can be shared
 // across domains
-app.use(cors({ // restrict cross-origin resource sharing to the React application
-                 credentials: true,
-                 // origin: "http://localhost:3000",
-                 origin: function (origin, callback) {
-                     if (!origin || allowedOrigins.includes(origin)) {
-                         callback(null, true);
-                     } else {
-                         callback(new Error("Not allowed by CORS"));
-                     }
-                 },
-             }));
+app.use((req, res, next) => {
+    const allowedOrigins = ["http://localhost:3000", "https://musical-duckanoo-05ddab.netlify.app/"];
+    const origin = req.headers.origin;
+
+    if (allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+    }
+
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, PATCH, OPTIONS");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+});
 app.use(express.json()); // parse JSON from HTTP request body because express does not know how
 // to extract data from an HTTP body. Express defines a JSON middleware to parse data from the
 // body. All requests will first go through this middleware parsing the HTTP body into a JSON
