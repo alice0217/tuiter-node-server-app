@@ -14,7 +14,8 @@ app.use( // configure server session
          session({
                      secret: "any string",
                      resave: false,
-                     saveUninitialized: true
+                     saveUninitialized: false,
+                     store: new session.MemoryStore(),
                  })
 );
 // cors - cross-origin resource sharing - establish rules by which resources can be shared
