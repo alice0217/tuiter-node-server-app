@@ -19,26 +19,24 @@ app.use( // configure server session
 );
 // cors - cross-origin resource sharing - establish rules by which resources can be shared
 // across domains
-// app.use((req, res, next) => {
-//     const allowedOrigins = ["http://localhost:3000", "https://musical-duckanoo-05ddab.netlify.app/"];
-//     const origin = req.headers.origin;
-//
-//     if (allowedOrigins.includes(origin)) {
-//         res.header("Access-Control-Allow-Origin", origin);
-//     }
-//
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, PATCH, OPTIONS");
-//     res.header("Access-Control-Allow-Credentials", "true");
-//     next();
-// });
+app.use(
+    cors({
+             credentials: true,
+             origin: "http://localhost:3000",
+         })
+);
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://musical-duckanoo-05ddab.netlify.app");
+app.use(function (req, res, next) {
+    res.header(
+        "Access-Control-Allow-Origin",
+        "https://tuiter-node-server-app-xcy7.onrender.com"
+    );
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
     );
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, POST, DELETE, PATCH, OPTIONS");
+    res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
 
