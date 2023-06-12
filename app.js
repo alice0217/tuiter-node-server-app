@@ -41,7 +41,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.json()); // parse JSON from HTTP request body because express does not know how
+app.use(express.json()); // parse JSON from HTTP request body because express
+// does not
+// know how
 // to extract data from an HTTP body. Express defines a JSON middleware to parse data from the
 // body. All requests will first go through this middleware parsing the HTTP body into a JSON
 // object added to the requested object in a new body property that later HTTP handlers can access.
