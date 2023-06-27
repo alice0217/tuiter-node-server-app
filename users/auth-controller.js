@@ -117,8 +117,21 @@ const AuthController = (app) => {
         res.sendStatus(200);
     };
 
-    const update = (req, res) => { };
-
+    const update = (req, res) => {
+        const currentUser = currentUserVar;
+        if (!currentUser) {
+            res.sendStatus(404);
+        }
+        const updateContent = req.body;
+        const currentUserId = currentUser._id;
+        const updatedUser = usersDao.updateUser(currentUserId, updateContent);
+        if (updatedUser) {
+            currentUserVar = updatedUser;
+            res.json(updatedUser);
+        } else {
+            res.sendStatus(404);
+        }
+    };
 
     app.post("/api/users/register", register);
     app.post("/api/users/login", login);
