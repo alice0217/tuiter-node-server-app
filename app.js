@@ -21,7 +21,7 @@ app.use(
 app.use(
     cors({
              credentials: true,
-             origin: ["http://localhost:3000", "https://a6--musical-duckanoo-05ddab.netlify.app"],
+             origin: "http://localhost:3000",
          }))
 
 app.use(express.json());
